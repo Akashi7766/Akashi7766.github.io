@@ -193,7 +193,7 @@ nav > * { pointer-events: auto; }
 
 /* projects */
 .proj { min-height: 100svh; display: grid; align-items: center; padding: 7rem 0; position: relative; overflow: hidden; }
-.proj .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; position: relative; }
+.proj .wrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; position: relative; }
 .tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.2rem; }
 .tag { padding: .2rem .6rem; border-radius: 99px; border: 1.5px solid color-mix(in srgb, var(--ink) 25%, transparent); }
 .tag.live { background: var(--acc); color: var(--bg); border-color: var(--acc); }
@@ -229,7 +229,7 @@ nav > * { pointer-events: auto; }
 
 /* notes demo */
 .search { display: flex; align-items: center; gap: .6rem; padding: .7rem 1rem; border-radius: 12px; background: var(--bg); margin-bottom: 1rem; }
-.search input { all: unset; flex: 1; font: 500 1rem 'Schibsted Grotesk', sans-serif; }
+.search input { all: unset; flex: 1; min-width: 0; font: 500 1rem 'Schibsted Grotesk', sans-serif; }
 .search input::placeholder { color: color-mix(in srgb, var(--ink) 45%, var(--bg)); }
 .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
 .tree ul { padding-left: 1.2rem; border-left: 2px dashed color-mix(in srgb, var(--acc) 35%, transparent); margin-left: .45rem; }
@@ -239,10 +239,12 @@ nav > * { pointer-events: auto; }
 .tree details[open] > summary::before { transform: rotate(90deg); }
 .tree summary:hover { background: color-mix(in srgb, var(--acc) 10%, transparent); }
 .tree details > ul { animation: fadeUp .35s ease; }
-.leaf { display: flex; justify-content: space-between; gap: 1rem; padding: .28rem .4rem; }
+.leaf { display: flex; justify-content: space-between; gap: .6rem; padding: .28rem .4rem; }
+.leaf span { min-width: 0; overflow-wrap: anywhere; }
+#ncount { white-space: nowrap; }
 .leaf em { font: normal .68rem 'JetBrains Mono', monospace; padding: .05rem .4rem; border-radius: 4px; background: color-mix(in srgb, var(--acc) 14%, transparent); color: var(--acc); align-self: center; }
 .leaf mark { background: var(--acc2); color: #fff; border-radius: 3px; padding: 0 .1em; }
-.lvl { display: flex; justify-content: space-between; margin-top: 1rem; }
+.lvl { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .2rem .6rem; margin-top: 1rem; }
 
 /* pitch demo */
 #snow { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
@@ -265,7 +267,13 @@ nav > * { pointer-events: auto; }
 
 /* bonds demo */
 .art.bonds { border-radius: 34px; }
-.meters { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+.meters { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .8rem 1rem; align-items: end; margin-bottom: 1.2rem; }
+.stats { display: flex; flex-wrap: wrap; gap: .35rem; justify-content: flex-end; font-size: .68rem; }
+.stats span { padding: .2rem .55rem; border-radius: 99px; background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.stats b { color: var(--acc); }
+.choices button em { display: block; margin-top: .25rem; font: normal .68rem 'JetBrains Mono', monospace; opacity: .75; }
+.choices button:disabled { opacity: .5; cursor: not-allowed; border-style: dashed; }
+.choices button:disabled:hover { background: none; color: inherit; border-color: color-mix(in srgb, var(--ink) 18%, transparent); transform: none; }
 .meter label { display: flex; justify-content: space-between; font: italic 1.2rem 'Instrument Serif', serif; }
 .bar { height: .6rem; border-radius: 99px; background: color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
 .bar b { display: block; height: 100%; width: var(--v); background: var(--c); border-radius: inherit; transition: width .8s cubic-bezier(.3,1.4,.5,1); }
@@ -421,7 +429,14 @@ nav > * { pointer-events: auto; }
 footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
 
 @media (max-width: 860px) {
-  .proj .wrap { grid-template-columns: 1fr; }
+  .proj .wrap { grid-template-columns: minmax(0, 1fr); }
+  .building .wrap { width: min(1180px, 100% - 2 * var(--wall) - 2rem); }
+  .art { padding: 1rem; }
+  .lift { gap: .2rem; padding: .25rem .3rem; }
+  .lift b { width: 1.5rem; height: 1.5rem; }
+  .readout { min-width: 2.9rem; padding: .2rem .4rem; }
+  /* fade the page out behind the nav so text never shows through the logo and lift */
+  nav::before { content: ''; position: absolute; inset: 0 0 -14px; z-index: -1; pointer-events: none; background: linear-gradient(var(--bg) 60%, transparent); }
   .lift span { display: none; }
   .proj { padding: 6rem 0 4rem; }
   .building .floor, .lamp { display: none; }
@@ -578,7 +593,7 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
       <p class="lede rv" style="--d:1">A visual novel where every choice changes how each character feels about you, and some choices end the story.</p>
       <ul class="pts">
         <li class="rv" style="--d:2">One reusable C# event controller runs the branching dialogue, the choices and the UI state, across about 50 scripts.</li>
-        <li class="rv" style="--d:3">Each character has a bond meter. Choices have consequences with their own game-over endings, and some scenes are one-offs: a convince minigame, riddles, a chase.</li>
+        <li class="rv" style="--d:3">Each character has a bond meter, and some replies only unlock with enough SPEECH, ANGER or SMARTS. Choices have consequences with their own game-over endings, and some scenes are one-offs: a convince minigame, riddles, a chase.</li>
         <li class="rv" style="--d:4">Assets load and unload on a fixed lifecycle, so scene transitions don't drop frames or leak memory.</li>
       </ul>
       <div class="links rv" style="--d:5">
@@ -588,13 +603,13 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
     <div class="rv" style="--d:2">
       <div class="art bonds" aria-live="polite">
         <div class="meters">
-          <div class="meter"><label>June <span class="mono" id="vJune">50</span></label><div class="bar" style="--c:var(--acc)"><b id="bJune" style="--v:50%"></b></div></div>
-          <div class="meter"><label>Arthur <span class="mono" id="vArthur">50</span></label><div class="bar" style="--c:var(--acc2)"><b id="bArthur" style="--v:50%"></b></div></div>
+          <div class="meter"><label>Emi's bond <span class="mono" id="vEmi">0 / 10</span></label><div class="bar" style="--c:var(--acc)"><b id="bEmi" style="--v:0%"></b></div></div>
+          <div class="stats mono" aria-label="Your stats: speech 3, anger 1, smarts 1"><span>SPEECH <b>3</b></span><span>ANGER <b>1</b></span><span>SMARTS <b>1</b></span></div>
         </div>
         <div class="bubble" id="bubble"><span class="who" id="who"></span><span id="line"></span></div>
         <div class="choices" id="choices"></div>
       </div>
-      <p class="art-cap mono muted">A sample scene written for this page. It runs on the game's choice-and-bond loop.</p>
+      <p class="art-cap mono muted">Emi's lines from the game's opening scenes. Some replies need enough SPEECH, ANGER or SMARTS, as in the game.</p>
     </div>
   </div>
 </section>
@@ -837,48 +852,63 @@ $('#rerun').addEventListener('click', runFeed);
   new IntersectionObserver(([e]) => { on = e.isIntersecting; if (on) requestAnimationFrame(tick); }).observe($('#pitch'));
 })();
 
-/* ---------- Bonds: choices move bond meters ---------- */
-const bonds = { June: 50, Arthur: 50 };
-const scenes = {
-  start: { who: 'June', line: "You came back. I didn't think you would.", ch: [
-    { t: 'I promised I would.', b: { June: 15 }, go: 'gate' },
-    { t: 'I came back for the map, not you.', b: { June: -20 }, go: 'gate' },
-    { t: 'Say nothing.', b: { June: -5, Arthur: 5 }, go: 'gate' } ] },
-  gate: { who: 'Arthur', line: 'The gate shuts at sundown. Only one of us gets through. Whose side are you on?', ch: [
-    { t: "June's.", b: { June: 15, Arthur: -20 }, go: 'end' },
-    { t: 'Yours, Arthur.', b: { Arthur: 20, June: -15 }, go: 'end' },
-    { t: "Neither. I'm going alone.", b: { June: -15, Arthur: -15 }, go: 'end' } ] },
-};
-function ending() {
-  const low = Object.entries(bonds).filter(([, v]) => v <= 30).map(([k]) => k);
-  if (low.length === 2) return { who: 'Game over', line: 'Nobody waits for you at the gate. You walk into the dark alone.' };
-  if (low.length) return { who: low[0], line: `${low[0]} turns away. "I'll remember this."` };
-  return { who: 'June & Arthur', line: 'You all make it through the gate together, just before it closes.' };
+/* ---------- Bonds: Emi's opening scenes, taken from the game's dialogue data ---------- */
+// lines from CharacterTalk_Manager, replies + stat gates from bubbleButton_Manager, +1 bond where the scene's `correct` index lands
+const stats = { SPEECH: 3, ANGER: 1, SMARTS: 1 };
+const emiScenes = [
+  { pre: ['What took you so long?', 'At this rate we will miss the test'], ask: 'Whatever... You ready yet?', ch: [
+    { t: 'The question is if the test is ready for ME.', req: { SMARTS: 1 }, reply: 'Yeah, right.. Lets go smartass.', bond: 1 },
+    { t: 'I WAS going to... but I opened the door.', req: { ANGER: 1 }, reply: 'Huh?... HURRY IT UP THEN!' }], after: "Let's discuss about the test on the way" },
+  { pre: ['Wait a minute...'], ask: 'Get close to me.', ch: [
+    { t: 'W-What?', reply: 'No time to explain' },
+    { t: "Sorry, I'm not ready yet.", req: { SPEECH: 3 }, reply: 'Oh HA HA! Now quick.', bond: 1 }], after: 'Just as I thought...' },
+  { pre: ["Finally... Didn't think that would work."], ask: 'How are you feeling? Any headaches or anything?', ch: [
+    { t: "I'll get more of a headache if you keep asking me questions.", req: { SPEECH: 3, SMARTS: 3 }, reply: 'Heh. You seem fine.', bond: 1 },
+    { t: "Yeah... Wild but I'm alright.", reply: 'Good.' }] },
+];
+let emiBond = 0, bondsRun = 0;
+const meets = req => Object.entries(req || {}).every(([k, v]) => stats[k] >= v);
+const reqText = req => Object.entries(req).map(([k, v]) => `${v} ${k}`).join(' · ');
+async function say(run, who, line, pause = 650) {
+  if (run !== bondsRun) return false;
+  const bub = $('#bubble'); bub.style.animation = 'none'; bub.offsetHeight; bub.style.animation = '';
+  $('#who').textContent = who;
+  if (!(await type($('#line'), line, 26))) return false;
+  await sleep(pause);
+  return run === bondsRun;
 }
-async function play(id) {
-  const s = id === 'end' ? ending() : scenes[id], box = $('#choices'), bub = $('#bubble');
-  box.innerHTML = ''; bub.style.animation = 'none'; bub.offsetHeight; bub.style.animation = '';
-  $('#who').textContent = s.who;
-  if (!(await type($('#line'), s.line, 26))) return;
-  const opts = s.ch || [{ t: 'Play again', reset: true }];
-  opts.forEach((c, i) => {
-    const b = document.createElement('button'); b.textContent = c.t; b.style.setProperty('--i', i);
-    b.onclick = () => {
-      if (c.reset) { bonds.June = bonds.Arthur = 50; paintBonds(); return play('start'); }
-      for (const [k, v] of Object.entries(c.b)) {
-        bonds[k] = Math.max(0, Math.min(100, bonds[k] + v));
-        const fx = document.createElement('span'); fx.className = 'delta';
-        fx.style.color = k === 'June' ? 'var(--acc)' : 'var(--acc2)';
-        fx.style.top = k === 'June' ? '1rem' : '2.2rem';
-        fx.textContent = `${k} ${v > 0 ? '+' : ''}${v}`; $('.art.bonds').append(fx); setTimeout(() => fx.remove(), 1300);
-      }
-      paintBonds(); play(c.go);
-    };
+function ask(options) { // resolves with the option the player picks
+  const box = $('#choices'); box.innerHTML = '';
+  return new Promise(done => options.forEach((c, i) => {
+    const b = document.createElement('button'), ok = meets(c.req);
+    b.style.setProperty('--i', i); b.disabled = !ok;
+    b.innerHTML = `<span>${esc(c.t)}</span>` + (c.req ? `<em>${ok ? '' : 'Locked · needs '}${reqText(c.req)}</em>` : '');
+    b.onclick = () => { box.innerHTML = ''; done(c); };
     box.append(b);
-  });
+  }));
 }
-function paintBonds() { for (const k in bonds) { $('#b' + k).style.setProperty('--v', bonds[k] + '%'); $('#v' + k).textContent = bonds[k]; } }
-onEnter.bonds = () => play('start');
+function paintBond(gained) {
+  $('#bEmi').style.setProperty('--v', emiBond * 10 + '%'); $('#vEmi').textContent = `${emiBond} / 10`;
+  if (!gained) return;
+  const fx = document.createElement('span'); fx.className = 'delta'; fx.style.color = 'var(--acc)'; fx.textContent = 'Emi +1';
+  $('.art.bonds').append(fx); setTimeout(() => fx.remove(), 1300);
+}
+async function playEmi() {
+  const run = ++bondsRun; emiBond = 0; paintBond(); $('#choices').innerHTML = '';
+  for (const s of emiScenes) {
+    for (const line of s.pre) if (!(await say(run, 'Emi', line))) return;
+    if (!(await say(run, 'Emi', s.ask, 0))) return;
+    const c = await ask(s.ch);
+    if (run !== bondsRun) return;
+    if (c.bond) { emiBond = Math.min(10, emiBond + c.bond); paintBond(true); }
+    if (!(await say(run, 'Emi', c.reply, 900))) return;
+    if (s.after && !(await say(run, 'Emi', s.after, 900))) return;
+  }
+  if (!(await say(run, 'Jin', 'Who will accompany you for the hunt?', 0))) return;
+  await ask([{ t: `Play again (Emi's bond ended at ${emiBond} / 10)` }]);
+  playEmi();
+}
+onEnter.bonds = playEmi;
 
 /* ---------- Rogue: deterministic combat ---------- */
 // mirrors BaseUnit.takedamage: power × atk(1 + atkMod%) ÷ def(1 + defMod%)
