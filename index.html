@@ -7,7 +7,7 @@
 <meta name="description" content="Kashif Mukaddam: Flutter apps and Unity games, shipped.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Schibsted+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Silkscreen&family=Instrument+Serif:ital@0;1&family=Young+Serif&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Schibsted+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Silkscreen&family=Instrument+Serif:ital@0;1&family=Young+Serif&family=Chakra+Petch:wght@700&family=MedievalSharp&display=swap" rel="stylesheet">
 <style>
 @property --bg   { syntax: '<color>'; inherits: true; initial-value: #A9D2F7; }
 @property --surf { syntax: '<color>'; inherits: true; initial-value: #F4F9FF; }
@@ -28,6 +28,8 @@ body                     { --bg:#A9D2F7; --surf:#F4F9FF; --ink:#10213A; --acc:#1
 body[data-theme="garden"]{ --bg:#9BCB6C; --surf:#F4FAEC; --ink:#15260F; --acc:#2F6B1E; --acc2:#E8A33D; }
 body[data-theme="notes"] { --bg:#F5F0C4; --surf:#FFFBE2; --ink:#1B2A4E; --acc:#2D55E0; --acc2:#FF5C93; }
 body[data-theme="pitch"] { --bg:#0A1A2A; --surf:#102638; --ink:#E3F2FF; --acc:#6FE3FF; --acc2:#FF8C7A; }
+body[data-theme="lab"]   { --bg:#E8ECEF; --surf:#FFFFFF; --ink:#12171D; --acc:#0B7A70; --acc2:#E5484D; }
+body[data-theme="castle"]{ --bg:#1D1133; --surf:#2B1A4A; --ink:#EDE4FF; --acc:#F28A2E; --acc2:#FFC85E; }
 body[data-theme="bonds"] { --bg:#FFE3EA; --surf:#FFF5F7; --ink:#3B1631; --acc:#E0337B; --acc2:#F59A1B; }
 body[data-theme="rogue"] { --bg:#1C0E0A; --surf:#2C1610; --ink:#F6E2CF; --acc:#FF5B1F; --acc2:#7BE36B; }
 
@@ -202,6 +204,8 @@ nav > * { pointer-events: auto; }
 .in .title { clip-path: inset(0 -5% -10% 0); }
 .t-notes { font-family: 'Young Serif', serif; font-weight: 400; }
 .t-pitch { font-family: 'Unbounded', sans-serif; font-weight: 800; letter-spacing: -.06em; }
+.t-lab { font-family: 'Chakra Petch', sans-serif; font-weight: 700; letter-spacing: -.02em; }
+.t-castle { font-family: 'MedievalSharp', serif; font-weight: 400; letter-spacing: 0; }
 .t-bonds { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: clamp(3.2rem, 8vw, 6.8rem); letter-spacing: -.02em; }
 .t-rogue { font-family: 'Silkscreen', monospace; font-weight: 400; font-size: clamp(2.2rem, 5.5vw, 4.6rem); letter-spacing: 0; }
 .proj .lede { font-size: 1.2rem; line-height: 1.45; margin: 0 0 1.4rem; max-width: 36ch; }
@@ -264,6 +268,93 @@ nav > * { pointer-events: auto; }
 .draft .mono { display: block; margin-bottom: .4rem; color: var(--acc); }
 .caret::after { content: '▍'; color: var(--acc); animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
+
+/* phonelab demo: a drop rig driven by PhoneLab's own engine */
+.pl { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 1rem; }
+.plrig { position: relative; height: 300px; border-radius: 14px; overflow: hidden; background: linear-gradient(#F8FAFB, #DCE2E7);
+  border: 1.5px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+.plrig::before { content: ''; position: absolute; left: 10px; top: 30px; bottom: 36px; width: 8px; opacity: .35;
+  background: repeating-linear-gradient(var(--ink) 0 1px, transparent 1px 12px); }
+.plh { position: absolute; left: 10px; top: 8px; font-size: .68rem; color: color-mix(in srgb, var(--ink) 70%, transparent); }
+.plfloor { position: absolute; left: 0; right: 0; bottom: 0; height: 30px; background: #5a5d63; transition: background .4s; }
+.plfloor::before { content: ''; position: absolute; inset: 0 0 auto; height: 6px; background: repeating-linear-gradient(-45deg, #F5C518 0 10px, #12171D 10px 20px); }
+.plphone { position: absolute; left: 50%; top: 30px; width: 58px; height: 122px; margin-left: -29px; border-radius: 13px; background: #16181c;
+  border: 3px solid #c4b59d; box-shadow: 0 10px 18px -8px rgba(0,0,0,.5); }
+.plphone .scr { position: absolute; inset: 2px; border-radius: 10px; overflow: hidden; background: linear-gradient(160deg, #3b6cf0, #9a5cf0 60%, #f05c9a); }
+.plphone .scr::before { content: ''; position: absolute; top: 5px; left: 50%; width: 18px; height: 5px; margin-left: -9px; border-radius: 3px; background: #000; z-index: 1; }
+.plphone .scr b { position: absolute; top: 22%; width: 100%; text-align: center; font: 700 .7rem 'Chakra Petch', sans-serif; color: #fff; }
+.plphone[data-m="s5"] { border-radius: 9px; border-color: #d9dde3; }
+.plphone[data-m="s5"] .scr { inset: 12px 3px 16px; border-radius: 2px; }
+.plphone[data-m="s5"] .scr::before { display: none; }
+.plphone[data-m="nokia"] { width: 46px; height: 104px; margin-left: -23px; border-radius: 20px 20px 15px 15px; background: #1f4078; border-color: #173262;
+  background-image: radial-gradient(circle, #c9d3e6 0 2.5px, transparent 3px); background-size: 12px 11px; background-position: 4px 60px; }
+.plphone[data-m="nokia"] .scr { inset: 14px 7px auto; height: 30px; border-radius: 4px; background: #9fbf6a; }
+.plphone[data-m="nokia"] .scr::before { display: none; }
+.plphone[data-m="nokia"] .scr b { top: 8px; color: #2d3b1a; font-size: .6rem; }
+.plphone.dead .scr { background: #050607; }
+.plphone.dead .scr b { display: none; }
+.plcracks { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
+.plcracks polyline { fill: none; stroke: rgba(255,255,255,.92); stroke-width: 1.1; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 1px rgba(0,0,0,.9)); }
+.dent { position: absolute; width: 9px; height: 9px; border-radius: 50%; translate: -50% -50%; background: radial-gradient(circle, rgba(0,0,0,.65), rgba(0,0,0,0) 70%); }
+.puff { position: absolute; bottom: 24px; left: 50%; width: 140px; height: 34px; margin-left: -70px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(rgba(110,110,110,.5), transparent 70%); animation: puff .6s ease-out forwards; }
+@keyframes puff { from { transform: scale(.3); opacity: 1; } to { transform: scale(1.5); opacity: 0; } }
+.seg-l { display: block; margin: 0 0 .25rem; font-size: .64rem; text-transform: uppercase; letter-spacing: .08em; }
+.seg { display: flex; flex-wrap: wrap; gap: .3rem; margin-bottom: .6rem; }
+.seg button { padding: .35rem .6rem; border-radius: 8px; border: 1.5px solid color-mix(in srgb, var(--ink) 20%, transparent); background: none;
+  font: 600 .72rem 'JetBrains Mono', monospace; transition: background .2s, color .2s; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.plbtns { display: flex; flex-wrap: wrap; gap: .5rem; }
+.plbtns .btn { padding: .55rem 1rem; font-size: .85rem; }
+.plbtns .btn:disabled { opacity: .45; cursor: wait; }
+.pllog { grid-column: 1 / -1; min-height: 6rem; padding: .6rem .8rem; border-radius: 10px; background: var(--bg); font: .72rem/1.55 'JetBrains Mono', monospace; }
+.pllog p { margin: 0; }
+.pllog .info { font-weight: 600; }
+.pllog .ok { color: var(--acc); }
+.pllog .warn { color: #A35F00; }
+.pllog .bad { color: var(--acc2); }
+.pllog .dead { color: #7B2CBF; font-weight: 600; }
+
+/* writersblock demo: the floating parchment drawer and a screen scan */
+.wb { display: grid; justify-items: center; gap: 1rem; }
+.wbphone { width: min(250px, 100%); aspect-ratio: 9 / 17; padding: 10px; border-radius: 30px; background: #0B0616; box-shadow: 0 0 0 2px #3B2765, 0 30px 60px -30px #000; }
+.wbscreen { position: relative; height: 100%; overflow: hidden; border-radius: 21px; background: #F4F6FA; }
+.wbapp { padding: 0 14px; font: 500 .72rem/1.45 'Schibsted Grotesk', sans-serif; color: #1F2633; }
+.wbapp header { display: flex; align-items: center; gap: .6rem; margin: 0 -14px 12px; padding: 22px 14px 10px; background: #3D5AFE; color: #fff; font-weight: 700; }
+.wbapp header i { width: 13px; height: 2px; background: #fff; box-shadow: 0 4px #fff, 0 -4px #fff; }
+.wbapp h5 { margin: 0 0 6px; font-size: .85rem; }
+#wbsrc { margin: 0 0 12px; padding: 8px; border-radius: 8px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.1); }
+.wblines i { display: block; height: 7px; margin-bottom: 8px; border-radius: 4px; background: #DCE1EA; }
+.wblines i:nth-child(2n) { width: 82%; }
+.wblines i:nth-child(3n) { width: 64%; }
+.wbhandle { position: absolute; right: 0; top: 40%; z-index: 3; width: 18px; height: 70px; padding: 0; border: 0; border-radius: 9px 0 0 9px; cursor: pointer;
+  background: linear-gradient(90deg, #C7A26A, #F5E6C4 40%, #E6CC98 70%, #C7A26A); box-shadow: inset 3px 0 0 #5E3519; animation: handlePulse 2.4s ease-out infinite; }
+@keyframes handlePulse { 0% { outline: 0 solid rgba(255,200,94,.7); } 100% { outline: 10px solid rgba(255,200,94,0); } }
+.wbcrop { position: absolute; z-index: 4; left: 6px; top: 6px; width: calc(100% - 12px); height: calc(100% - 12px); border-radius: 4px; opacity: 0; pointer-events: none;
+  box-shadow: 0 0 0 999px rgba(11,6,22,.55); transition: left .7s, top .7s, width .7s, height .7s, opacity .3s;
+  background: linear-gradient(#FFC85E, #FFC85E) 0 0 / 14px 3px, linear-gradient(#FFC85E, #FFC85E) 0 0 / 3px 14px,
+              linear-gradient(#FFC85E, #FFC85E) 100% 0 / 14px 3px, linear-gradient(#FFC85E, #FFC85E) 100% 0 / 3px 14px,
+              linear-gradient(#FFC85E, #FFC85E) 0 100% / 14px 3px, linear-gradient(#FFC85E, #FFC85E) 0 100% / 3px 14px,
+              linear-gradient(#FFC85E, #FFC85E) 100% 100% / 14px 3px, linear-gradient(#FFC85E, #FFC85E) 100% 100% / 3px 14px;
+  background-repeat: no-repeat; outline: 1px dashed rgba(255,200,94,.7); }
+.wbcrop.on { opacity: 1; }
+.wbflash { position: absolute; inset: 0; z-index: 5; background: #fff; opacity: 0; pointer-events: none; }
+/* the scroll slides in, then unrolls between its two rollers */
+.wbdrawer { position: absolute; z-index: 6; top: 6%; left: 9%; right: 5%; height: 86%; display: grid; grid-template-rows: 14px 0fr 14px;
+  transform: translateX(118%); transition: grid-template-rows .5s ease, transform .45s ease .45s; }
+.wbdrawer.open { grid-template-rows: 14px 1fr 14px; transform: none; transition: transform .45s cubic-bezier(.3,1.2,.4,1), grid-template-rows .6s ease .35s; }
+.roller { margin: 0 -6px; border-radius: 7px; background: linear-gradient(#9A6233, #5E3519); box-shadow: 0 2px 0 #0B0616; }
+.wbpage { min-height: 0; overflow: auto; padding: 0 12px; color: #3A2315; background: linear-gradient(90deg, #E6CC98, #F5E6C4 12%, #F5E6C4 88%, #E6CC98);
+  font: .76rem/1.5 Georgia, serif; }
+.wbpage h4 { display: flex; justify-content: space-between; align-items: center; margin: 8px 0 6px; font: 1rem 'MedievalSharp', serif; }
+.wbpage h4 button { border: 0; background: none; color: #8C6B4B; font-size: .9rem; cursor: pointer; }
+.wbdoc { min-height: 4rem; padding-bottom: 8px; outline: none; }
+.wbdoc p { margin: 0 0 6px; }
+.wbdoc p:empty::before { content: attr(data-ph); color: #8C6B4B; }
+.wbimg { margin: 6px 0; padding: 6px; border: 2px solid #C7A26A; border-radius: 4px; background: #fff; box-shadow: 0 2px 0 rgba(58,35,21,.2);
+  font: 500 .6rem/1.4 'Schibsted Grotesk', sans-serif; color: #1F2633; }
+.wbctl { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; }
+.wbctl .btn { padding: .55rem 1rem; font-size: .85rem; }
 
 /* bonds demo */
 .art.bonds { border-radius: 34px; }
@@ -348,7 +439,7 @@ nav > * { pointer-events: auto; }
 .doorway, .door { position: absolute; inset: calc(var(--door) / 2 - 2px) 0 0; }
 .doorway { overflow: hidden; background: radial-gradient(ellipse at 50% 100%, #FFE9C2, #E9A35E 55%, #5B301A); }
 /* the stairs you just came down, one step per floor */
-.doorway i { position: absolute; left: var(--x); right: 0; bottom: var(--y); height: 13%; background: var(--c); box-shadow: inset 0 4px 0 rgba(255,255,255,.35); }
+.doorway i { position: absolute; left: var(--x); right: 0; bottom: var(--y); height: 9%; background: var(--c); box-shadow: inset 0 4px 0 rgba(255,255,255,.35); }
 .door { transform-origin: left center; box-shadow: inset 0 0 0 5px #164548; transition: transform 1.8s cubic-bezier(.65,0,.25,1) .2s, filter 1.8s .2s;
   background: linear-gradient(90deg, rgba(0,0,0,.18), transparent 25%, rgba(255,255,255,.07) 60%, rgba(0,0,0,.2)), #1F5C60; }
 .door::before { content: ''; position: absolute; inset: 9% 15% 8%; border: 3px solid #164548; border-radius: 3px;
@@ -433,8 +524,10 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
   .building .wrap { width: min(1180px, 100% - 2 * var(--wall) - 2rem); }
   .art { padding: 1rem; }
   .lift { gap: .2rem; padding: .25rem .3rem; }
-  .lift b { width: 1.5rem; height: 1.5rem; }
-  .readout { min-width: 2.9rem; padding: .2rem .4rem; }
+  nav { padding: .75rem 1rem; }
+  .lift { gap: .12rem; }
+  .lift b { width: 1.4rem; height: 1.4rem; font-size: .66rem; }
+  .readout { min-width: 2.6rem; padding: .2rem .35rem; }
   /* fade the page out behind the nav so text never shows through the logo and lift */
   nav::before { content: ''; position: absolute; inset: 0 0 -14px; z-index: -1; pointer-events: none; background: linear-gradient(var(--bg) 60%, transparent); }
   .lift span { display: none; }
@@ -442,6 +535,7 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
   .building .floor, .lamp { display: none; }
 }
 @media (max-width: 760px) { .win, .gtree { display: none; } }
+@media (max-width: 560px) { .pl { grid-template-columns: minmax(0, 1fr); } .plrig { height: 230px; } }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; transition-delay: 0ms !important; animation-iteration-count: 1 !important; }
   html { scroll-behavior: auto; }
@@ -477,8 +571,10 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
   <a class="mark" href="#top">KM</a>
   <ol class="lift">
     <li class="readout" aria-hidden="true"><i id="dir">▼</i><em id="lvl">R</em></li>
-    <li><a href="#notes" style="--c:#2D55E0" aria-label="Floor 4: Study Notes Handler"><b>4</b><span>Study Notes</span></a></li>
-    <li><a href="#pitch" style="--c:#6FE3FF" aria-label="Floor 3: ProofPitch"><b>3</b><span>ProofPitch</span></a></li>
+    <li><a href="#notes" style="--c:#2D55E0" aria-label="Floor 6: Study Notes Handler"><b>6</b><span>Study Notes</span></a></li>
+    <li><a href="#pitch" style="--c:#6FE3FF" aria-label="Floor 5: ProofPitch"><b>5</b><span>ProofPitch</span></a></li>
+    <li><a href="#phonelab" style="--c:#0B7A70" aria-label="Floor 4: PhoneLab"><b>4</b><span>PhoneLab</span></a></li>
+    <li><a href="#writers" style="--c:#F28A2E" aria-label="Floor 3: WritersBlock"><b>3</b><span>WritersBlock</span></a></li>
     <li><a href="#bonds" style="--c:#E0337B" aria-label="Floor 2: Project Bonds"><b>2</b><span>Bonds</span></a></li>
     <li><a href="#rogue" style="--c:#FF5B1F" aria-label="Floor 1: Project Rogue"><b>1</b><span>Rogue</span></a></li>
     <li><a href="#about" style="--c:#8BD45A" aria-label="Ground floor: skills and contact"><b>G</b><span>Garden</span></a></li>
@@ -501,11 +597,13 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
     <p class="lede">I build Flutter apps and Unity games, and I take them all the way to the store.</p>
     <p class="mono muted">BSc Computer Science · SVKM's Mithibai College, Mumbai · graduating May 2027</p>
     <div class="chips">
-      <span class="chips-label mono muted">Four floors, one project on each</span>
-      <a class="chip" href="#notes" style="--i:0;--c:#2D55E0;--c2:#F5F0C4"><i></i><b>Study Notes Handler</b><small>4F · Flutter · on Google Play</small></a>
-      <a class="chip" href="#pitch" style="--i:1;--c:#6FE3FF;--c2:#0A1A2A"><i></i><b>ProofPitch</b><small>3F · Flutter · internship finder</small></a>
-      <a class="chip" href="#bonds" style="--i:2;--c:#E0337B;--c2:#FFE3EA"><i></i><b>Project Bonds</b><small>2F · Unity · visual novel</small></a>
-      <a class="chip" href="#rogue" style="--i:3;--c:#FF5B1F;--c2:#1C0E0A"><i></i><b>Project Rogue</b><small>1F · Unity · turn-based</small></a>
+      <span class="chips-label mono muted">Six floors, one project on each</span>
+      <a class="chip" href="#notes" style="--i:0;--c:#2D55E0;--c2:#F5F0C4"><i></i><b>Study Notes Handler</b><small>6F · Flutter · on Google Play</small></a>
+      <a class="chip" href="#pitch" style="--i:1;--c:#6FE3FF;--c2:#0A1A2A"><i></i><b>ProofPitch</b><small>5F · Flutter · internship finder</small></a>
+      <a class="chip" href="#phonelab" style="--i:2;--c:#0B7A70;--c2:#E8ECEF"><i></i><b>PhoneLab</b><small>4F · Browser · phone torture lab</small></a>
+      <a class="chip" href="#writers" style="--i:3;--c:#F28A2E;--c2:#1D1133"><i></i><b>WritersBlock</b><small>3F · Android · floating notes</small></a>
+      <a class="chip" href="#bonds" style="--i:4;--c:#E0337B;--c2:#FFE3EA"><i></i><b>Project Bonds</b><small>2F · Unity · visual novel</small></a>
+      <a class="chip" href="#rogue" style="--i:5;--c:#FF5B1F;--c2:#1C0E0A"><i></i><b>Project Rogue</b><small>1F · Unity · turn-based</small></a>
     </div>
   </div>
   <div class="roof-wrap" aria-hidden="true">
@@ -525,8 +623,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
 <div class="wall r" aria-hidden="true"><i class="quoin"></i><svg class="ivy"></svg></div>
 
 <!-- STUDY NOTES -->
-<section class="proj" id="notes" data-theme="notes" data-floor="4F" aria-labelledby="notes-h">
-  <span class="floor" aria-hidden="true">4F</span>
+<section class="proj" id="notes" data-theme="notes" data-floor="6F" aria-labelledby="notes-h">
+  <span class="floor" aria-hidden="true">6F</span>
   <div class="wrap">
     <div>
       <div class="tags mono rv"><span class="tag live">Live on Google Play</span><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Isar</span><span class="tag">Gemini API</span></div>
@@ -554,8 +652,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
 </section>
 
 <!-- PROOFPITCH -->
-<section class="proj" id="pitch" data-theme="pitch" data-floor="3F" aria-labelledby="pitch-h">
-  <span class="floor" aria-hidden="true">3F</span>
+<section class="proj" id="pitch" data-theme="pitch" data-floor="5F" aria-labelledby="pitch-h">
+  <span class="floor" aria-hidden="true">5F</span>
   <canvas id="snow" aria-hidden="true"></canvas>
   <div class="wrap">
     <div>
@@ -579,6 +677,97 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
         <div class="draft" id="draft"></div>
       </div>
       <p class="art-cap mono muted"><button class="btn" id="rerun" style="padding:.35rem .8rem;font-size:.8rem">Run the feed again</button></p>
+    </div>
+  </div>
+</section>
+
+<!-- PHONELAB -->
+<section class="proj" id="phonelab" data-theme="lab" data-floor="4F" aria-labelledby="phonelab-h">
+  <span class="floor" aria-hidden="true">4F</span>
+  <div class="wrap">
+    <div>
+      <div class="tags mono rv"><span class="tag live">Live in your browser</span><span class="tag">JavaScript</span><span class="tag">Canvas 3D</span><span class="tag">No libraries</span></div>
+      <h2 class="title t-lab" id="phonelab-h">PhoneLab</h2>
+      <p class="lede rv" style="--d:1">A smartphone torture simulator. Spec a phone, then drop it, drown it, shoot it or run DOOM on it until it overheats.</p>
+      <ul class="pts">
+        <li class="rv" style="--d:2">Spec any device down to its glass, frame, case and IP rating, or load one of 13 presets, from the iPhone 16 Pro Max to a 1989 Game Boy.</li>
+        <li class="rv" style="--d:3">Drop it in a 3D rigid-body arena where tumbling physics decides which face, edge or corner lands: stairs, a pool, a frozen lake, a volcano, the Moon.</li>
+        <li class="rv" style="--d:4">Run DOOM, Minecraft or an LLM on it. Apps slow down as RAM swaps and the chip throttles, and with thermal protection off the battery swells and catches fire.</li>
+        <li class="rv" style="--d:5">Plain JavaScript with no build step or libraries, including its own canvas 3D renderer. The damage model is pure functions, checked by a 53-assertion test script.</li>
+      </ul>
+      <div class="links rv" style="--d:6">
+        <a class="btn solid" href="https://akashi7766.github.io/phonelab/" target="_blank" rel="noopener">Play PhoneLab ↗</a>
+        <a class="btn" href="https://github.com/Akashi7766/phonelab" target="_blank" rel="noopener">Source on GitHub</a>
+      </div>
+    </div>
+    <div class="rv" style="--d:2">
+      <div class="art pl">
+        <div class="plrig" id="plrig" aria-hidden="true">
+          <span class="plh mono" id="plh">drop height 3 m</span>
+          <div class="plphone" id="plphone" data-m="ip"><div class="scr"><b>21:58</b><svg class="plcracks" id="plcracks" viewBox="0 0 100 210" preserveAspectRatio="none"></svg></div></div>
+          <div class="plfloor" id="plfloor"></div>
+        </div>
+        <div class="plctl" id="plctl">
+          <span class="seg-l mono muted">Phone</span>
+          <div class="seg" data-k="phone"><button data-v="iPhone 16 Pro Max" aria-pressed="true">iPhone 16 Pro Max</button><button data-v="Galaxy S5" aria-pressed="false">Galaxy S5</button><button data-v="Nokia 3310" aria-pressed="false">Nokia 3310</button></div>
+          <span class="seg-l mono muted">Height</span>
+          <div class="seg" data-k="h"><button data-v="1" aria-pressed="false">1 m</button><button data-v="3" aria-pressed="true">3 m</button><button data-v="10" aria-pressed="false">10 m</button><button data-v="40" aria-pressed="false">40 m</button></div>
+          <span class="seg-l mono muted">Lands</span>
+          <div class="seg" data-k="surf"><button data-v="concrete" aria-pressed="true">Concrete</button><button data-v="grass" aria-pressed="false">Grass</button></div>
+          <div class="seg" data-k="hit"><button data-v="screen" aria-pressed="true">Screen first</button><button data-v="corner" aria-pressed="false">Corner first</button></div>
+          <div class="plbtns"><button class="btn solid" id="pldrop" disabled>Drop it</button><button class="btn" id="plfresh">Fresh phone</button></div>
+        </div>
+        <div class="pllog" id="pllog" aria-live="polite"><p>Loading PhoneLab's damage engine…</p></div>
+      </div>
+      <p class="art-cap mono muted">This drop test runs PhoneLab's real damage engine, loaded from the live site. Damage adds up until you take a fresh phone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WRITERSBLOCK -->
+<section class="proj" id="writers" data-theme="castle" data-floor="3F" aria-labelledby="writers-h">
+  <span class="floor" aria-hidden="true">3F</span>
+  <div class="wrap">
+    <div>
+      <div class="tags mono rv"><span class="tag">In development</span><span class="tag">Kotlin</span><span class="tag">Jetpack Compose</span><span class="tag">ML Kit OCR</span></div>
+      <h2 class="title t-castle" id="writers-h">WritersBlock</h2>
+      <p class="lede rv" style="--d:1">A floating notes drawer for Android. Pull it out over any app to write, or scan part of the screen straight into a note.</p>
+      <ul class="pts">
+        <li class="rv" style="--d:2">A floating scroll handle sits over every app and unrolls a parchment drawer. It's a Compose UI hosted inside a foreground service, sharing one editor with the app itself.</li>
+        <li class="rv" style="--d:3">Scan the screen: crop any region and ML Kit OCR puts both the picture and its text into the note. The text stays an ordinary paragraph, so OCR mistakes are fixed in place.</li>
+        <li class="rv" style="--d:4">Notes are plain text files with a folder for their images, autosaved so nothing is lost, and shareable or exportable as PDF or Word.</li>
+        <li class="rv" style="--d:5">A castle-at-night theme where every shape and icon is drawn on Canvas, with no image assets or icon library. Working on the Android emulator; not yet tested on a physical phone.</li>
+      </ul>
+      <div class="links rv" style="--d:6">
+        <span class="btn private"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2" fill="none" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="7" width="10" height="7.5" rx="1.8" fill="currentColor"/></svg>Private repo</span>
+      </div>
+    </div>
+    <div class="rv" style="--d:2">
+      <div class="art wb">
+        <div class="wbphone">
+          <div class="wbscreen">
+            <div class="wbapp" aria-hidden="true">
+              <header><i></i>Operating Systems</header>
+              <h5>Lecture 7 · Deadlocks</h5>
+              <p id="wbsrc">A deadlock needs four conditions at once: mutual exclusion, hold and wait, no preemption and circular wait.</p>
+              <div class="wblines"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+            <button class="wbhandle" id="wbhandle" aria-label="Open the WritersBlock drawer" aria-expanded="false"></button>
+            <div class="wbcrop" id="wbcrop"></div>
+            <div class="wbflash" id="wbflash"></div>
+            <div class="wbdrawer" id="wbdrawer">
+              <div class="roller"></div>
+              <div class="wbpage">
+                <h4>Loose page <button id="wbclose" aria-label="Roll the drawer up">✕</button></h4>
+                <div class="wbdoc" id="wbdoc" contenteditable="true" spellcheck="false"><p data-ph="Write anything, from any app…"></p></div>
+              </div>
+              <div class="roller"></div>
+            </div>
+          </div>
+        </div>
+        <div class="wbctl"><button class="btn" id="wbopen">Open the drawer</button><button class="btn solid" id="wbscan">Scan the screen</button></div>
+      </div>
+      <p class="art-cap mono muted">A browser mock-up of the drawer. Tap the scroll handle to write, or scan the lecture slide into a note. On the phone, ML Kit does the reading.</p>
     </div>
   </div>
 </section>
@@ -662,8 +851,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
     <div class="door-frame">
       <div class="fan"></div>
       <div class="doorway">
-        <i style="--x:0;--y:0;--c:#FF5B1F"></i><i style="--x:22%;--y:13%;--c:#E0337B"></i>
-        <i style="--x:44%;--y:26%;--c:#6FE3FF"></i><i style="--x:66%;--y:39%;--c:#2D55E0"></i>
+        <i style="--x:0;--y:0;--c:#FF5B1F"></i><i style="--x:14%;--y:9%;--c:#E0337B"></i><i style="--x:28%;--y:18%;--c:#F28A2E"></i>
+        <i style="--x:42%;--y:27%;--c:#0B7A70"></i><i style="--x:56%;--y:36%;--c:#6FE3FF"></i><i style="--x:70%;--y:45%;--c:#2D55E0"></i>
       </div>
       <div class="door"></div>
     </div>
@@ -851,6 +1040,99 @@ $('#rerun').addEventListener('click', runFeed);
   addEventListener('resize', size); size();
   new IntersectionObserver(([e]) => { on = e.isIntersecting; if (on) requestAnimationFrame(tick); }).observe($('#pitch'));
 })();
+
+/* ---------- PhoneLab: a drop test on PhoneLab's own damage engine (sim.js from the live site) ---------- */
+const pl = { phone: $('#plphone'), cracks: $('#plcracks'), log: $('#pllog'), drop: $('#pldrop'), rig: $('#plrig'), floor: $('#plfloor') };
+const plSel = { phone: 'iPhone 16 Pro Max', h: 3, surf: 'concrete', hit: 'screen' };
+const plModel = { 'iPhone 16 Pro Max': 'ip', 'Galaxy S5': 's5', 'Nokia 3310': 'nokia' };
+let plSpec, plState, plBusy = false, plDown = false;
+const plLog = lines => { pl.log.innerHTML = lines.map(([lvl, msg]) => `<p class="${lvl}">${esc(msg)}</p>`).join(''); };
+const plMove = (from, to, ms, easing) => RM ? Promise.resolve() : pl.phone.animate([{ transform: from }, { transform: to }], { duration: ms, easing }).finished;
+const plRest = () => `translateY(${pl.rig.clientHeight - 30 - pl.phone.offsetTop - pl.phone.offsetHeight}px)`;
+async function plRaise() { if (plDown) await plMove(plRest(), 'none', 280, 'ease-out'); pl.phone.style.transform = 'none'; plDown = false; }
+function plPaint() {
+  pl.cracks.innerHTML = plState.cracks.front.map(line =>
+    `<polyline points="${line.map(([u, v]) => `${(u * 100).toFixed(1)},${(v * 210).toFixed(1)}`).join(' ')}"/>`).join('');
+  pl.phone.querySelectorAll('.dent').forEach(d => d.remove());
+  for (const { u, v } of plState.dents) { // dents sit on the frame, at the edge nearest the hit
+    const d = document.createElement('i'); d.className = 'dent';
+    const toX = Math.min(u, 1 - u) < Math.min(v, 1 - v);
+    d.style.left = (toX ? Math.round(u) : u) * 100 + '%'; d.style.top = (toX ? v : Math.round(v)) * 100 + '%';
+    pl.phone.append(d);
+  }
+  pl.phone.classList.toggle('dead', plState.power === 'dead');
+}
+async function plFresh() {
+  if (!window.Sim) return;
+  const p = Sim.PRESETS.find(p => p.name.startsWith(plSel.phone));
+  plSpec = structuredClone(p.spec); plState = Sim.newState();
+  pl.phone.dataset.m = plModel[plSel.phone]; plPaint(); await plRaise();
+  plLog([['ok', `${p.name}: fresh out of the box.`]]);
+}
+document.querySelectorAll('#plctl .seg').forEach(seg => seg.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b || plBusy) return;
+  seg.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  const k = seg.dataset.k; plSel[k] = k === 'h' ? +b.dataset.v : b.dataset.v;
+  if (k === 'phone') plFresh();
+  if (k === 'h') $('#plh').textContent = `drop height ${plSel.h} m`;
+  if (k === 'surf' && window.Sim) pl.floor.style.background = Sim.SURFACES[plSel.surf].color;
+}));
+$('#plfresh').addEventListener('click', () => { if (!plBusy) plFresh(); });
+pl.drop.addEventListener('click', async () => {
+  if (plBusy || !window.Sim) return;
+  plBusy = true; pl.drop.disabled = true;
+  await plRaise();
+  const rest = plRest(), speed = Math.sqrt(2 * 9.81 * plSel.h), corner = plSel.hit === 'corner';
+  await plMove('none', `${rest} rotate(${corner ? 405 : plSel.h >= 10 ? 720 : 360}deg)`, 380 + 240 * Math.sqrt(plSel.h), 'cubic-bezier(.5,0,1,.55)');
+  pl.phone.style.transform = rest; plDown = true;
+  const where = corner ? { hit: 'corner', side: 'front', u: .95, v: .03 } : { hit: 'screen', u: .3 + Math.random() * .4, v: .3 + Math.random() * .4 };
+  const r = Sim.impact(plSpec, plState, { speed, surfaceFactor: Sim.SURFACES[plSel.surf].factor, ...where });
+  plPaint();
+  const puff = document.createElement('i'); puff.className = 'puff'; pl.rig.append(puff); setTimeout(() => puff.remove(), 700);
+  if (!RM) { pl.rig.animate([{ translate: '0 0' }, { translate: '0 3px' }, { translate: '0 0' }], 180); if (corner) plMove(`${rest} rotate(45deg)`, rest, 260, 'ease-in'); }
+  plLog([['info', `${plSel.h} m onto ${Sim.SURFACES[plSel.surf].name.toLowerCase()}: hit at ${speed.toFixed(1)} m/s, ${r.energy.toFixed(1)} J reached the phone`],
+    ...(r.events.length ? r.events.map(e => [e.lvl, e.msg]) : [['ok', 'Not a scratch.']])]);
+  await sleep(300); plBusy = false; pl.drop.disabled = false;
+});
+(() => {
+  const sim = document.createElement('script');
+  sim.src = 'https://akashi7766.github.io/phonelab/sim.js';
+  sim.onload = () => { pl.drop.disabled = false; pl.floor.style.background = Sim.SURFACES[plSel.surf].color; plFresh(); };
+  sim.onerror = () => plLog([['bad', "Couldn't load PhoneLab's engine. Use Play PhoneLab to try the full simulator."]]);
+  document.head.append(sim);
+})();
+
+/* ---------- WritersBlock: open the drawer anywhere, or scan the screen into the note ---------- */
+const wb = { drawer: $('#wbdrawer'), doc: $('#wbdoc'), crop: $('#wbcrop'), screen: $('.wbscreen'), src: $('#wbsrc') };
+const wbOpen = open => {
+  wb.drawer.classList.toggle('open', open);
+  $('#wbhandle').setAttribute('aria-expanded', open);
+  $('#wbopen').textContent = open ? 'Roll it up' : 'Open the drawer';
+};
+$('#wbhandle').addEventListener('click', () => wbOpen(!wb.drawer.classList.contains('open')));
+$('#wbopen').addEventListener('click', () => wbOpen(!wb.drawer.classList.contains('open')));
+$('#wbclose').addEventListener('click', () => wbOpen(false));
+let wbBusy = false;
+$('#wbscan').addEventListener('click', async () => {
+  if (wbBusy) return; wbBusy = true;
+  if (wb.drawer.classList.contains('open')) { wbOpen(false); await sleep(900); } // the drawer gets out of the way of the capture
+  const s = wb.screen.getBoundingClientRect(), t = wb.src.getBoundingClientRect(), c = wb.crop;
+  Object.assign(c.style, { left: '6px', top: '6px', width: s.width - 12 + 'px', height: s.height - 12 + 'px' });
+  c.classList.add('on'); await sleep(450);
+  Object.assign(c.style, { left: t.left - s.left - 5 + 'px', top: t.top - s.top - 5 + 'px', width: t.width + 10 + 'px', height: t.height + 10 + 'px' });
+  await sleep(900);
+  if (!RM) $('#wbflash').animate([{ opacity: .85 }, { opacity: 0 }], 350);
+  c.classList.remove('on');
+  // as in the app: the cropped picture goes in, with its OCR text beneath as an ordinary editable paragraph
+  const fig = document.createElement('figure'), text = document.createElement('p');
+  fig.className = 'wbimg'; fig.contentEditable = 'false'; fig.textContent = wb.src.textContent;
+  const blank = wb.doc.querySelector('p:empty'); if (blank) blank.remove();
+  wb.doc.append(fig, text);
+  wbOpen(true); await sleep(1000);
+  await type(text, wb.src.textContent, 14);
+  wb.doc.parentElement.scrollTop = wb.doc.parentElement.scrollHeight;
+  wbBusy = false;
+});
 
 /* ---------- Bonds: Emi's opening scenes, taken from the game's dialogue data ---------- */
 // lines from CharacterTalk_Manager, replies + stat gates from bubbleButton_Manager, +1 bond where the scene's `correct` index lands
@@ -1088,11 +1370,11 @@ function buildPath() {
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.innerHTML = out;
 }
 
-const petals = ['#2D55E0', '#6FE3FF', '#E0337B', '#FF5B1F', '#FFFFFF'];
+const petals = ['#2D55E0', '#6FE3FF', '#0B7A70', '#F28A2E', '#E0337B', '#FF5B1F', '#FFFFFF'];
 const bed = '(50% - var(--door) * .9)'; // lawn width on each side of the path
 $('.flowers').innerHTML = Array.from({ length: 18 }, (_, i) => {
   const t = ((i % 9 + .5) / 9).toFixed(3), x = i < 9 ? `calc(${bed} * ${t})` : `calc(50% + var(--door) * .9 + ${bed} * ${t})`;
-  return `<svg class="fl" viewBox="-14 -44 28 46" style="left:${x};top:${70 + (i * 37) % 44}px;height:${30 + (i * 13) % 22}px;--d:${(-(i * .37) % 3).toFixed(2)}s"><use href="#flower" color="${petals[i % 5]}"/></svg>`;
+  return `<svg class="fl" viewBox="-14 -44 28 46" style="left:${x};top:${70 + (i * 37) % 44}px;height:${30 + (i * 13) % 22}px;--d:${(-(i * .37) % 3).toFixed(2)}s"><use href="#flower" color="${petals[i % petals.length]}"/></svg>`;
 }).join('');
 
 function buildButterflies() {
