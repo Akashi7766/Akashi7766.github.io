@@ -7,7 +7,7 @@
 <meta name="description" content="Kashif Mukaddam: Flutter apps and Unity games, shipped.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Schibsted+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Silkscreen&family=Instrument+Serif:ital@0;1&family=Young+Serif&family=Chakra+Petch:wght@700&family=MedievalSharp&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Schibsted+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Silkscreen&family=Instrument+Serif:ital@0;1&family=Young+Serif&family=Chakra+Petch:wght@700&family=MedievalSharp&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
 <style>
 @property --bg   { syntax: '<color>'; inherits: true; initial-value: #A9D2F7; }
 @property --surf { syntax: '<color>'; inherits: true; initial-value: #F4F9FF; }
@@ -30,6 +30,7 @@ body[data-theme="notes"] { --bg:#F5F0C4; --surf:#FFFBE2; --ink:#1B2A4E; --acc:#2
 body[data-theme="pitch"] { --bg:#0A1A2A; --surf:#102638; --ink:#E3F2FF; --acc:#6FE3FF; --acc2:#FF8C7A; }
 body[data-theme="lab"]   { --bg:#E8ECEF; --surf:#FFFFFF; --ink:#12171D; --acc:#0B7A70; --acc2:#E5484D; }
 body[data-theme="castle"]{ --bg:#1D1133; --surf:#2B1A4A; --ink:#EDE4FF; --acc:#F28A2E; --acc2:#FFC85E; }
+body[data-theme="sink"]  { --bg:#D7F1F8; --surf:#F3FBFE; --ink:#12355B; --acc:#1667B8; --acc2:#E8534F; }
 body[data-theme="bonds"] { --bg:#FFE3EA; --surf:#FFF5F7; --ink:#3B1631; --acc:#E0337B; --acc2:#F59A1B; }
 body[data-theme="rogue"] { --bg:#1C0E0A; --surf:#2C1610; --ink:#F6E2CF; --acc:#FF5B1F; --acc2:#7BE36B; }
 
@@ -206,6 +207,7 @@ nav > * { pointer-events: auto; }
 .t-pitch { font-family: 'Unbounded', sans-serif; font-weight: 800; letter-spacing: -.06em; }
 .t-lab { font-family: 'Chakra Petch', sans-serif; font-weight: 700; letter-spacing: -.02em; }
 .t-castle { font-family: 'MedievalSharp', serif; font-weight: 400; letter-spacing: 0; }
+.t-sink { font-family: 'Fredoka', sans-serif; font-weight: 700; letter-spacing: -.02em; }
 .t-bonds { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; font-size: clamp(3.2rem, 8vw, 6.8rem); letter-spacing: -.02em; }
 .t-rogue { font-family: 'Silkscreen', monospace; font-weight: 400; font-size: clamp(2.2rem, 5.5vw, 4.6rem); letter-spacing: 0; }
 .proj .lede { font-size: 1.2rem; line-height: 1.45; margin: 0 0 1.4rem; max-width: 36ch; }
@@ -356,6 +358,35 @@ nav > * { pointer-events: auto; }
 .wbctl { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; }
 .wbctl .btn { padding: .55rem 1rem; font-size: .85rem; }
 
+/* sink demo: one round of the real game */
+.skhead { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: .7rem; font-size: .74rem; }
+.sksea { position: relative; height: 300px; border-radius: 14px; overflow: hidden; background: linear-gradient(#c4ecff, #8fd6f5 24%, transparent 24%); }
+.skwater { position: absolute; left: 0; right: 0; top: 24%; bottom: 0; background: linear-gradient(#5cc8f5, #1667b8); }
+.skwater::before { content: ''; position: absolute; inset: -7px 0 auto; height: 8px; animation: wave 3s linear infinite;
+  background: radial-gradient(circle at 10px 0, transparent 8px, #5cc8f5 8.5px) 0 0 / 20px 8px repeat-x; }
+@keyframes wave { to { background-position: 20px 0; } }
+.skclock { position: absolute; right: 10px; top: 8px; z-index: 2; padding: .15rem .55rem; border-radius: 99px; background: rgba(255,255,255,.85); color: #12355B; font-size: .72rem; }
+.skobj { position: absolute; top: 5%; width: 52px; height: 52px; margin-left: -26px; z-index: 1; display: grid; place-items: center;
+  font-size: 34px; line-height: 1; filter: drop-shadow(0 4px 4px rgba(0,0,0,.25)); }
+#sko0 { left: 30%; }
+#sko1 { left: 70%; }
+.skobj::after { content: attr(data-label); position: absolute; left: 50%; top: 100%; translate: -50% 2px; padding: .1rem .45rem; border-radius: 99px; white-space: nowrap;
+  font: 600 .68rem 'JetBrains Mono', monospace; color: #fff; background: rgba(1,3,7,.6); opacity: 0; transition: opacity .3s; }
+.skobj:not([data-label=""])::after { opacity: 1; }
+.skpick { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .5rem; margin-top: .8rem; }
+.skpick button { display: flex; align-items: center; gap: .5rem; padding: .6rem .8rem; border-radius: 12px; border: 2px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  background: var(--bg); color: var(--ink); font: 600 .9rem 'Fredoka', sans-serif; text-align: left; transition: border-color .2s, transform .2s; }
+.skpick button span { font-size: 1.4rem; }
+.skpick button:hover:not(:disabled) { border-color: var(--acc); transform: translateY(-2px); }
+.skpick button.chosen { border-color: var(--acc); background: color-mix(in srgb, var(--acc) 14%, var(--bg)); }
+.skpick button:disabled { cursor: default; }
+.skresult { margin-top: .8rem; font-size: .86rem; line-height: 1.45; }
+.skresult p { margin: .3rem 0; }
+.skresult .mono { display: block; font-size: .68rem; }
+.skresult .sk-win { color: #1E8E4A; }
+.skresult .sk-lose { color: var(--acc2); }
+.skresult .btn { margin-top: .5rem; padding: .5rem 1rem; font-size: .85rem; }
+
 /* bonds demo */
 .art.bonds { border-radius: 34px; }
 .meters { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .8rem 1rem; align-items: end; margin-bottom: 1.2rem; }
@@ -439,7 +470,7 @@ nav > * { pointer-events: auto; }
 .doorway, .door { position: absolute; inset: calc(var(--door) / 2 - 2px) 0 0; }
 .doorway { overflow: hidden; background: radial-gradient(ellipse at 50% 100%, #FFE9C2, #E9A35E 55%, #5B301A); }
 /* the stairs you just came down, one step per floor */
-.doorway i { position: absolute; left: var(--x); right: 0; bottom: var(--y); height: 9%; background: var(--c); box-shadow: inset 0 4px 0 rgba(255,255,255,.35); }
+.doorway i { position: absolute; left: var(--x); right: 0; bottom: var(--y); height: 8%; background: var(--c); box-shadow: inset 0 4px 0 rgba(255,255,255,.35); }
 .door { transform-origin: left center; box-shadow: inset 0 0 0 5px #164548; transition: transform 1.8s cubic-bezier(.65,0,.25,1) .2s, filter 1.8s .2s;
   background: linear-gradient(90deg, rgba(0,0,0,.18), transparent 25%, rgba(255,255,255,.07) 60%, rgba(0,0,0,.2)), #1F5C60; }
 .door::before { content: ''; position: absolute; inset: 9% 15% 8%; border: 3px solid #164548; border-radius: 3px;
@@ -526,8 +557,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
   .lift { gap: .2rem; padding: .25rem .3rem; }
   nav { padding: .75rem 1rem; }
   .lift { gap: .12rem; }
-  .lift b { width: 1.4rem; height: 1.4rem; font-size: .66rem; }
-  .readout { min-width: 2.6rem; padding: .2rem .35rem; }
+  .lift b { width: 1.28rem; height: 1.28rem; font-size: .62rem; }
+  .readout { min-width: 2.4rem; padding: .2rem .3rem; }
   /* fade the page out behind the nav so text never shows through the logo and lift */
   nav::before { content: ''; position: absolute; inset: 0 0 -14px; z-index: -1; pointer-events: none; background: linear-gradient(var(--bg) 60%, transparent); }
   .lift span { display: none; }
@@ -571,12 +602,13 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
   <a class="mark" href="#top">KM</a>
   <ol class="lift">
     <li class="readout" aria-hidden="true"><i id="dir">▼</i><em id="lvl">R</em></li>
-    <li><a href="#notes" style="--c:#2D55E0" aria-label="Floor 6: Study Notes Handler"><b>6</b><span>Study Notes</span></a></li>
-    <li><a href="#pitch" style="--c:#6FE3FF" aria-label="Floor 5: ProofPitch"><b>5</b><span>ProofPitch</span></a></li>
-    <li><a href="#phonelab" style="--c:#0B7A70" aria-label="Floor 4: PhoneLab"><b>4</b><span>PhoneLab</span></a></li>
-    <li><a href="#writers" style="--c:#F28A2E" aria-label="Floor 3: WritersBlock"><b>3</b><span>WritersBlock</span></a></li>
-    <li><a href="#bonds" style="--c:#E0337B" aria-label="Floor 2: Project Bonds"><b>2</b><span>Bonds</span></a></li>
-    <li><a href="#rogue" style="--c:#FF5B1F" aria-label="Floor 1: Project Rogue"><b>1</b><span>Rogue</span></a></li>
+    <li><a href="#notes" style="--c:#2D55E0" aria-label="Floor 7: Study Notes Handler"><b>7</b><span>Study Notes</span></a></li>
+    <li><a href="#pitch" style="--c:#6FE3FF" aria-label="Floor 6: ProofPitch"><b>6</b><span>ProofPitch</span></a></li>
+    <li><a href="#phonelab" style="--c:#0B7A70" aria-label="Floor 5: PhoneLab"><b>5</b><span>PhoneLab</span></a></li>
+    <li><a href="#writers" style="--c:#F28A2E" aria-label="Floor 4: WritersBlock"><b>4</b><span>WritersBlock</span></a></li>
+    <li><a href="#bonds" style="--c:#E0337B" aria-label="Floor 3: Project Bonds"><b>3</b><span>Bonds</span></a></li>
+    <li><a href="#rogue" style="--c:#FF5B1F" aria-label="Floor 2: Project Rogue"><b>2</b><span>Rogue</span></a></li>
+    <li><a href="#sink" style="--c:#FFC93B" aria-label="Floor 1: How Far Will It Sink?"><b>1</b><span>Sink</span></a></li>
     <li><a href="#about" style="--c:#8BD45A" aria-label="Ground floor: skills and contact"><b>G</b><span>Garden</span></a></li>
   </ol>
 </nav>
@@ -597,13 +629,14 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
     <p class="lede">I build Flutter apps and Unity games, and I take them all the way to the store.</p>
     <p class="mono muted">BSc Computer Science · SVKM's Mithibai College, Mumbai · graduating May 2027</p>
     <div class="chips">
-      <span class="chips-label mono muted">Six floors, one project on each</span>
-      <a class="chip" href="#notes" style="--i:0;--c:#2D55E0;--c2:#F5F0C4"><i></i><b>Study Notes Handler</b><small>6F · Flutter · on Google Play</small></a>
-      <a class="chip" href="#pitch" style="--i:1;--c:#6FE3FF;--c2:#0A1A2A"><i></i><b>ProofPitch</b><small>5F · Flutter · internship finder</small></a>
-      <a class="chip" href="#phonelab" style="--i:2;--c:#0B7A70;--c2:#E8ECEF"><i></i><b>PhoneLab</b><small>4F · Browser · phone torture lab</small></a>
-      <a class="chip" href="#writers" style="--i:3;--c:#F28A2E;--c2:#1D1133"><i></i><b>WritersBlock</b><small>3F · Android · floating notes</small></a>
-      <a class="chip" href="#bonds" style="--i:4;--c:#E0337B;--c2:#FFE3EA"><i></i><b>Project Bonds</b><small>2F · Unity · visual novel</small></a>
-      <a class="chip" href="#rogue" style="--i:5;--c:#FF5B1F;--c2:#1C0E0A"><i></i><b>Project Rogue</b><small>1F · Unity · turn-based</small></a>
+      <span class="chips-label mono muted">Seven floors, one project on each</span>
+      <a class="chip" href="#notes" style="--i:0;--c:#2D55E0;--c2:#F5F0C4"><i></i><b>Study Notes Handler</b><small>7F · Flutter · on Google Play</small></a>
+      <a class="chip" href="#pitch" style="--i:1;--c:#6FE3FF;--c2:#0A1A2A"><i></i><b>ProofPitch</b><small>6F · Flutter · internship finder</small></a>
+      <a class="chip" href="#phonelab" style="--i:2;--c:#0B7A70;--c2:#E8ECEF"><i></i><b>PhoneLab</b><small>5F · Browser · phone torture lab</small></a>
+      <a class="chip" href="#writers" style="--i:3;--c:#F28A2E;--c2:#1D1133"><i></i><b>WritersBlock</b><small>4F · Android · floating notes</small></a>
+      <a class="chip" href="#bonds" style="--i:4;--c:#E0337B;--c2:#FFE3EA"><i></i><b>Project Bonds</b><small>3F · Unity · visual novel</small></a>
+      <a class="chip" href="#rogue" style="--i:5;--c:#FF5B1F;--c2:#1C0E0A"><i></i><b>Project Rogue</b><small>2F · Unity · turn-based</small></a>
+      <a class="chip" href="#sink" style="--i:6;--c:#FFC93B;--c2:#1667B8"><i></i><b>How Far Will It Sink?</b><small>1F · Browser · physics guessing game</small></a>
     </div>
   </div>
   <div class="roof-wrap" aria-hidden="true">
@@ -623,8 +656,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
 <div class="wall r" aria-hidden="true"><i class="quoin"></i><svg class="ivy"></svg></div>
 
 <!-- STUDY NOTES -->
-<section class="proj" id="notes" data-theme="notes" data-floor="6F" aria-labelledby="notes-h">
-  <span class="floor" aria-hidden="true">6F</span>
+<section class="proj" id="notes" data-theme="notes" data-floor="7F" aria-labelledby="notes-h">
+  <span class="floor" aria-hidden="true">7F</span>
   <div class="wrap">
     <div>
       <div class="tags mono rv"><span class="tag live">Live on Google Play</span><span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">Isar</span><span class="tag">Gemini API</span></div>
@@ -652,8 +685,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
 </section>
 
 <!-- PROOFPITCH -->
-<section class="proj" id="pitch" data-theme="pitch" data-floor="5F" aria-labelledby="pitch-h">
-  <span class="floor" aria-hidden="true">5F</span>
+<section class="proj" id="pitch" data-theme="pitch" data-floor="6F" aria-labelledby="pitch-h">
+  <span class="floor" aria-hidden="true">6F</span>
   <canvas id="snow" aria-hidden="true"></canvas>
   <div class="wrap">
     <div>
@@ -682,8 +715,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
 </section>
 
 <!-- PHONELAB -->
-<section class="proj" id="phonelab" data-theme="lab" data-floor="4F" aria-labelledby="phonelab-h">
-  <span class="floor" aria-hidden="true">4F</span>
+<section class="proj" id="phonelab" data-theme="lab" data-floor="5F" aria-labelledby="phonelab-h">
+  <span class="floor" aria-hidden="true">5F</span>
   <div class="wrap">
     <div>
       <div class="tags mono rv"><span class="tag live">Live in your browser</span><span class="tag">JavaScript</span><span class="tag">Canvas 3D</span><span class="tag">No libraries</span></div>
@@ -725,8 +758,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
 </section>
 
 <!-- WRITERSBLOCK -->
-<section class="proj" id="writers" data-theme="castle" data-floor="3F" aria-labelledby="writers-h">
-  <span class="floor" aria-hidden="true">3F</span>
+<section class="proj" id="writers" data-theme="castle" data-floor="4F" aria-labelledby="writers-h">
+  <span class="floor" aria-hidden="true">4F</span>
   <div class="wrap">
     <div>
       <div class="tags mono rv"><span class="tag">In development</span><span class="tag">Kotlin</span><span class="tag">Jetpack Compose</span><span class="tag">ML Kit OCR</span></div>
@@ -773,8 +806,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
 </section>
 
 <!-- BONDS -->
-<section class="proj" id="bonds" data-theme="bonds" data-floor="2F" aria-labelledby="bonds-h">
-  <span class="floor" aria-hidden="true">2F</span>
+<section class="proj" id="bonds" data-theme="bonds" data-floor="3F" aria-labelledby="bonds-h">
+  <span class="floor" aria-hidden="true">3F</span>
   <div class="wrap">
     <div>
       <div class="tags mono rv"><span class="tag">Unity</span><span class="tag">C#</span><span class="tag">Visual novel</span></div>
@@ -804,8 +837,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
 </section>
 
 <!-- ROGUE -->
-<section class="proj" id="rogue" data-theme="rogue" data-floor="1F" aria-labelledby="rogue-h">
-  <span class="floor" aria-hidden="true">1F</span>
+<section class="proj" id="rogue" data-theme="rogue" data-floor="2F" aria-labelledby="rogue-h">
+  <span class="floor" aria-hidden="true">2F</span>
   <div class="wrap">
     <div>
       <div class="tags mono rv"><span class="tag">Unity</span><span class="tag">C#</span><span class="tag">Turn-based</span></div>
@@ -838,10 +871,44 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
   </div>
 </section>
 
+<!-- HOW FAR WILL IT SINK -->
+<section class="proj" id="sink" data-theme="sink" data-floor="1F" aria-labelledby="sink-h">
+  <span class="floor" aria-hidden="true">1F</span>
+  <div class="wrap">
+    <div>
+      <div class="tags mono rv"><span class="tag live">Live in your browser</span><span class="tag">JavaScript</span><span class="tag">Canvas</span><span class="tag">Real physics</span></div>
+      <h2 class="title t-sink" id="sink-h">How Far Will It Sink?</h2>
+      <p class="lede rv" style="--d:1">A browser game. Two objects are dropped over the Mariana Trench: pick the one that sinks deeper in 30 minutes. One wrong guess and it's game over.</p>
+      <ul class="pts">
+        <li class="rv" style="--d:2">545 objects, from a potato to the Titanic, plus all 151 original Pokémon built from their official Pokédex height and weight.</li>
+        <li class="rv" style="--d:3">Every depth comes from real physics: an object's real mass and size decide whether it floats, and its drag decides how fast it falls. Each result shows the weight and density used.</li>
+        <li class="rv" style="--d:4">A dive through all five ocean zones with depth-appropriate sea life, down to the Challenger Deep at 10,935 m.</li>
+        <li class="rv" style="--d:5">It gets hard fast: by a score of 10 the two depths are within a few percent. A test script checks the formula against measured sinking speeds and every object's mass against its size.</li>
+      </ul>
+      <div class="links rv" style="--d:6">
+        <a class="btn solid" href="https://akashi7766.github.io/sink-game/" target="_blank" rel="noopener">Play the game ↗</a>
+        <a class="btn" href="https://github.com/Akashi7766/sink-game" target="_blank" rel="noopener">Source on GitHub</a>
+      </div>
+    </div>
+    <div class="rv" style="--d:2">
+      <div class="art sk">
+        <div class="skhead"><span class="mono">Which one sinks deeper?</span><span class="mono muted" id="skscore">Score 0 · Best 0</span></div>
+        <div class="sksea" id="sksea" aria-hidden="true">
+          <div class="skwater" id="skwater"></div>
+          <span class="skclock mono" id="skclock">0:00</span>
+          <div class="skobj" id="sko0" data-label=""></div><div class="skobj" id="sko1" data-label=""></div>
+        </div>
+        <div class="skpick"><button id="skp0" disabled>Loading…</button><button id="skp1" disabled>Loading…</button></div>
+        <div class="skresult" id="skresult" aria-live="polite"></div>
+      </div>
+      <p class="art-cap mono muted">A round of the real game: the objects and the physics load straight from the game's own items.js. The clock is the 30 minutes, sped up.</p>
+    </div>
+  </div>
+</section>
 </div><!-- /building -->
 
 <section class="ground" id="about" aria-labelledby="about-h">
-  <div class="facade" aria-hidden="true" data-theme="rogue" data-floor="G" data-nav="about">
+  <div class="facade" aria-hidden="true" data-theme="sink" data-floor="G" data-nav="about">
     <div class="cornice"></div>
     <i class="quoin l"></i><i class="quoin r"></i>
     <div class="win l"><i class="shutter"></i><div class="pane"><i class="glass"></i></div><i class="shutter"></i><b class="box"></b></div>
@@ -851,8 +918,8 @@ footer { padding: 4rem 0 2rem; display: flex; justify-content: space-between; fl
     <div class="door-frame">
       <div class="fan"></div>
       <div class="doorway">
-        <i style="--x:0;--y:0;--c:#FF5B1F"></i><i style="--x:14%;--y:9%;--c:#E0337B"></i><i style="--x:28%;--y:18%;--c:#F28A2E"></i>
-        <i style="--x:42%;--y:27%;--c:#0B7A70"></i><i style="--x:56%;--y:36%;--c:#6FE3FF"></i><i style="--x:70%;--y:45%;--c:#2D55E0"></i>
+        <i style="--x:0;--y:0;--c:#FFC93B"></i><i style="--x:12%;--y:8%;--c:#FF5B1F"></i><i style="--x:24%;--y:16%;--c:#E0337B"></i><i style="--x:36%;--y:24%;--c:#F28A2E"></i>
+        <i style="--x:48%;--y:32%;--c:#0B7A70"></i><i style="--x:60%;--y:40%;--c:#6FE3FF"></i><i style="--x:72%;--y:48%;--c:#2D55E0"></i>
       </div>
       <div class="door"></div>
     </div>
@@ -1133,6 +1200,85 @@ $('#wbscan').addEventListener('click', async () => {
   wb.doc.parentElement.scrollTop = wb.doc.parentElement.scrollHeight;
   wbBusy = false;
 });
+
+/* ---------- How Far Will It Sink?: a round of the real game, on its own items.js ---------- */
+const sk = { sea: $('#sksea'), water: $('#skwater'), clock: $('#skclock'), o: [$('#sko0'), $('#sko1')], b: [$('#skp0'), $('#skp1')], res: $('#skresult') };
+let skLib, skPair, skScore = 0, skBest = 0, skBusy = true;
+// helpers and wording copied from the game's index.html, so a round here reads the way it does there
+const skS = d => d <= 10 ? d * 60 : 600 + 900 * Math.log(d / 10); // the game's depth scale: linear to 10 m, then logarithmic
+const skFmt = d => d < 1 ? Math.round(d * 100) + ' cm' : d < 10 ? d.toFixed(1) + ' m' : Math.round(d).toLocaleString() + ' m';
+const skKg = m => m >= 1000 ? (m / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 }) + ' t' : m >= 1 ? +m.toFixed(1) + ' kg' : Math.round(m * 1000 * 10) / 10 + ' g';
+const skMins = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const SK_WATER = [[0, '#5cc8f5'], [20, '#2a9be0'], [100, '#1667b8'], [200, '#0e4a94'], [500, '#0a2f66'], [1000, '#071d45'], [2000, '#05122e'], [4000, '#030a1c'], [6000, '#02060f'], [11000, '#010307']];
+function skDescribe(it) {
+  const r = it.rho / 1025, close = r > .94 && r < 1.06;
+  const n = it.base.note || (close ? (it.floats ? 'Only just floats — about as dense as seawater (air in the lungs makes the difference for animals).' : 'Only just sinks — barely denser than seawater, so it drifts down slowly.') : '');
+  const facts = `<span class="mono muted">${skKg(it.base.m)} · density ${(it.rho / 1000).toFixed(2)} vs seawater 1.03${n ? ' · ' + esc(n) : ''}</span>`;
+  if (it.floats) return `floats — lighter than the water it pushes aside, it dips ${skFmt(it.depth)} ${facts}`;
+  const sp = `falls at ${it.v.toFixed(2)} m/s`;
+  if (it.depth >= skLib.MAXD) return `${sp} and hits the bottom of the Mariana Trench after ${skMins(skLib.MAXD / it.v)}! ${facts}`;
+  return `${sp} → <b>${skFmt(it.depth)}</b> down after 30 min ${facts}`;
+}
+function skNewPair() { // the game's newPair(): round type first, then a depth gap that tightens with the score
+  const { ITEMS, MAXD, makeVariant } = skLib, any = () => makeVariant(ITEMS[Math.random() * ITEMS.length | 0]);
+  const lo = Math.max(.02, .5 * Math.pow(.72, skScore)), hi = skScore < 2 ? 1 : Math.min(1, lo * 3);
+  const r0 = Math.random(), type = r0 < (skScore < 4 ? .2 : .1) ? 'mixed' : r0 < .45 ? 'float' : 'sink';
+  for (let i = 0; i < 20000; i++) {
+    const a = any(), b = any();
+    if (a.base === b.base || (a.depth >= MAXD && b.depth >= MAXD)) continue;
+    if (type === 'mixed') { if (a.floats !== b.floats && (skScore < 4 || (a.floats ? b : a).depth < 400)) return [a, b]; continue; }
+    if (a.floats !== b.floats || a.floats !== (type === 'float')) continue;
+    const gap = (Math.max(a.depth, b.depth) - Math.min(a.depth, b.depth)) / Math.max(a.depth, b.depth);
+    if (gap >= lo && gap <= hi) return [a, b];
+  }
+  return skNewPair();
+}
+const skPaintScore = () => { $('#skscore').textContent = `Score ${skScore} · Best ${skBest}`; };
+function skRound() {
+  skPair = skNewPair(); sk.res.innerHTML = ''; sk.clock.textContent = '0:00';
+  sk.water.style.background = 'linear-gradient(#5cc8f5, #1667b8)';
+  sk.o.forEach((o, i) => { o.getAnimations().forEach(a => a.cancel()); o.style.transform = ''; o.dataset.label = ''; o.textContent = skPair[i].base.e; });
+  sk.b.forEach((b, i) => { b.disabled = false; b.classList.remove('chosen'); b.innerHTML = `<span>${skPair[i].base.e}</span>${esc(skPair[i].name)}`; });
+  skBusy = false;
+}
+async function skChoose(i) {
+  if (skBusy) return; skBusy = true;
+  sk.b.forEach((b, j) => { b.disabled = true; b.classList.toggle('chosen', j === i); });
+  const top = sk.water.offsetTop, water = sk.sea.clientHeight - top - 8;
+  const maxS = skS(Math.max(...skPair.map(p => p.depth))) / .8; // the deeper one lands 80% of the way down the column
+  const y = d => top + skS(d) / maxS * water;
+  // colour the column for the depths on show, from the game's own water palette
+  const cut = SK_WATER.findIndex(([d]) => skS(d) > maxS), stops = SK_WATER.slice(0, cut < 0 ? SK_WATER.length : cut + 1);
+  sk.water.style.background = `linear-gradient(${stops.map(([d, c]) => `${c} ${(skS(d) / maxS * 100).toFixed(1)}%`).join(', ')})`;
+  const T = RM ? 0 : 2600, t0 = performance.now();
+  const runs = skPair.map((it, j) => {
+    const o = sk.o[j], mid = o.offsetTop + o.offsetHeight / 2, toSurface = top - mid, dy = y(it.depth) - mid;
+    // falling at terminal velocity is a straight line in time; one that reaches the trench floor stops early
+    const reach = it.floats ? .12 : Math.min(1, it.depth / (it.v * 1800));
+    if (!T) { o.style.transform = `translateY(${dy}px)`; return Promise.resolve(); }
+    return o.animate([{ transform: 'translateY(0)' }, { transform: `translateY(${toSurface}px)`, offset: .05 },
+      { transform: `translateY(${dy}px)`, offset: .05 + .95 * reach }, { transform: `translateY(${dy}px)` }],
+      { duration: T, easing: 'linear', fill: 'forwards' }).finished;
+  });
+  const tick = () => { const f = T ? Math.min(1, (performance.now() - t0) / T) : 1; sk.clock.textContent = skMins(1800 * f); if (f < 1) requestAnimationFrame(tick); };
+  tick();
+  await Promise.all(runs);
+  skPair.forEach((it, j) => { sk.o[j].dataset.label = skFmt(it.depth); });
+  const me = skPair[i], other = skPair[1 - i], win = me.depth > other.depth;
+  if (win) skBest = Math.max(skBest, ++skScore);
+  sk.res.innerHTML = `<b class="${win ? 'sk-win' : 'sk-lose'}">${win ? 'Correct! 🎉 +1' : 'Glug glug… Game over 💥'}</b>` +
+    `<p><b>${esc(me.name)}</b> ${skDescribe(me)}</p><p><b>${esc(other.name)}</b> ${skDescribe(other)}</p>`;
+  const next = document.createElement('button');
+  next.className = 'btn solid'; next.textContent = win ? 'Next round ➜' : 'Play again 🔄';
+  next.onclick = () => { if (!win) skScore = 0; skPaintScore(); skRound(); };
+  sk.res.append(next); skPaintScore();
+}
+sk.b.forEach((b, i) => b.addEventListener('click', () => skChoose(i)));
+// items.js declares top-level consts, so run it in its own function scope instead of a <script> tag
+fetch('https://akashi7766.github.io/sink-game/items.js')
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+  .then(src => { skLib = new Function(src + '\nreturn { ITEMS, MAXD, makeVariant };')(); skRound(); })
+  .catch(() => { sk.res.innerHTML = '<p>Couldn\'t load the game\'s data. Use Play the game to try the full version.</p>'; });
 
 /* ---------- Bonds: Emi's opening scenes, taken from the game's dialogue data ---------- */
 // lines from CharacterTalk_Manager, replies + stat gates from bubbleButton_Manager, +1 bond where the scene's `correct` index lands
